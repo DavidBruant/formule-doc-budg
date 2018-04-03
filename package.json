@@ -1,0 +1,24 @@
+{
+  "name": "formule-doc-budg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "grammar": "nearleyc grammar.ne -o grammar.js",
+    "test": "node test/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidBruant/formule-doc-budg.git"
+  },
+  "keywords": [],
+  "author": "David Bruant <bruant.d@gmail.com> (https://twitter.com/DavidBruant)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavidBruant/formule-doc-budg/issues"
+  },
+  "homepage": "https://github.com/DavidBruant/formule-doc-budg#readme",
+  "dependencies": {
+    "nearley": "^2.13.0"
+  }
+}
