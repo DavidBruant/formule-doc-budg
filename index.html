@@ -12,36 +12,12 @@
         
         <script crossorigin="anonymous" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
         <script crossorigin="anonymous" src="https://unpkg.com/nearley"></script>
+        <script crossorigin="anonymous" src="https://d3js.org/d3-array.v1.min.js"></script>
+        <script crossorigin="anonymous" src="./Bouture.js"></script>
         <script crossorigin="anonymous" src="./grammar.js"></script>
 
         <script>
             'use strict';
-
-            const row = {
-                "Nature": "65111",
-                "Fonction": "58",
-                "CodRD": "D",
-                "MtReal": 10980.56,
-                "Chapitre": "65",
-                "FI": "F"
-            }
-
-            document.addEventListener('DOMContentLoaded', e => {
-                console.log('row', row);
-
-                document.body.querySelector('input').addEventListener('input', e => {
-                    const formula = e.target.value;
-                    const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-
-                    parser.feed(formula);
-                    
-                    const filter = makeFilterFromParserOutput(parser.results)
-                    //document.body.querySelector('output').textContent = JSON.stringify(parser.results, null, 2);
-
-                    document.body.querySelector('output').textContent = filter(row);
-                })
-                
-            }, {once: true})
 
             function makeFilterFromParserOutput(parserOutput){
 
@@ -104,7 +80,58 @@
                 return function(r){
                     return matchesComplex(r, parserOutput[0])
                 }
+
             }
+
+            function makeTable(rows, year){
+                return Bouture.section([
+                    Bouture.h1('CA Gironde '+ year),
+                    Bouture.h2(rows.length, ' elements | ', d3.sum(rows.map(r => r['MtReal']))+'€'),
+                    Bouture.table([
+                        Bouture.thead.tr(['RD', 'FI', 'Fonction', 'Nature', 'Montant'].map(t => Bouture.th(t))),
+                        Bouture.tbody(
+                            rows.map(r => {
+                                return Bouture.tr([
+                                    Bouture.td(r['CodRD']),
+                                    Bouture.td(r['FI']),
+                                    Bouture.td(r['Fonction']),
+                                    Bouture.td(r['Nature']),
+                                    Bouture.td(r['MtReal']+'€')
+                                ])
+                            })
+                        )
+                    ])
+                ]).getElement()
+            }
+
+
+
+            const docBudgP = fetch('./data/doc-budgs.json').then(r => r.json())
+
+            document.addEventListener('DOMContentLoaded', e => {
+                const output = document.querySelector('output');
+
+                docBudgP.then(docBudgs => {
+                    const docBudg16 = docBudgs.find(db => db["Exer"] === 2016)
+                    const docBudg17 = docBudgs.find(db => db["Exer"] === 2017)
+                    
+                    document.body.querySelector('input').addEventListener('input', e => {
+                        output.innerHTML = '';
+                        
+                        const formula = e.target.value;
+                        const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+
+                        parser.feed(formula);
+                        
+                        const filter = makeFilterFromParserOutput(parser.results);
+
+                        [docBudg16, docBudg17].forEach(db => {
+                            output.append(makeTable(db['rows'].filter(filter), db['Exer']))
+                        })
+                    })
+                })
+            }, {once: true})
+            
         </script>
 
         <style>
@@ -121,6 +148,9 @@
             output{
                 background-color: lightgrey;
                 white-space: pre;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
             }
         
         </style>
@@ -130,7 +160,7 @@
         <main>
             <h1>Outil de nia nia</h1>
             <input type="text">
-            <output></output>
+            <output></output>   
         </main>
 
     </body>
