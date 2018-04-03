@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="referrer" content="same-origin">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title> </title>
+        
+        <meta name="description" content=" ">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <script crossorigin="anonymous" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+        <script crossorigin="anonymous" src="https://unpkg.com/nearley"></script>
+        <script crossorigin="anonymous" src="./grammar.js"></script>
+
+        <script>
+            'use strict';
+
+            document.addEventListener('DOMContentLoaded', e => {
+                
+                document.body.querySelector('input').addEventListener('input', e => {
+                    const formula = e.target.value;
+                    const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+
+                    parser.feed(formula);
+                    document.body.querySelector('output').textContent = JSON.stringify(parser.results, null, 2);
+                })
+                
+            }, {once: true})
+        </script>
+
+        <style>
+
+            main{
+                display: flex;
+                flex-direction: column;
+            }
+
+            input{
+                width: 50%;
+                font-size: 2em;
+            }
+            output{
+                background-color: lightgrey;
+                white-space: pre;
+            }
+        
+        </style>
+
+    </head>
+    <body>
+        <main>
+            <h1>Outil de nia nia</h1>
+            <input type="text">
+            <output></output>
+        </main>
+
+    </body>
+</html>

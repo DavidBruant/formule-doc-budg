@@ -1,6 +1,6 @@
 # Grammar inspired by https://github.com/kach/nearley/blob/master/examples/calculator/arithmetic.ne
 
-main -> _ AS _      {% ts => ts.filter(x => !!x) %}
+main -> _ AS _      {% ts => ts[1] %}
 
 # Order of definition decides precedence
 
@@ -44,4 +44,4 @@ FONCTION -> "F" [0-9]:+         {% ts => ts[0]+ts[1].join('') %}
 
 
 # Whitespace
-_ -> [\s]:*     {% x => null %}
+_ -> [\s]:*     {% () => null %}
