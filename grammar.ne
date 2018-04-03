@@ -21,7 +21,7 @@ AS -> AS _ "+" _ M  {% ts => ts.filter(x => !!x) %}
 SUBSET -> RD        {% id %}
     | FI            {% id %}
     | RDFI          {% id %}
-    | OPERATION     {% id %}
+#    | OPERATION     {% id %}
     | CHAPITRE      {% id %}
     | NATURE        {% id %}
     | FONCTION      {% id %}
@@ -34,11 +34,11 @@ FI -> "F"   {% id %}
 
 RDFI -> RD FI                   {% ts => ts.join('') %}
 
-OPERATION -> "OR"               {% id %}
+# OPERATION -> "OR"               {% id %}
 
 CHAPITRE -> "C" [0-9]:+         {% ts => ts[0]+ts[1].join('') %}
 
-NATURE -> "N" [0-9]:+ [x]:?     {% ts => ts[0]+ts[1].join('')+(ts[2]?ts[2]:'') %}
+NATURE -> "N" [0-9]:+           {% ts => ts[0]+ts[1].join('') %}
 
 FONCTION -> "F" [0-9]:+         {% ts => ts[0]+ts[1].join('') %}
 
