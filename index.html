@@ -85,7 +85,7 @@
 
             function makeTable(rows, year){
                 return Bouture.section([
-                    Bouture.h1('CA Gironde '+ year),
+                    Bouture.h1('CA Gironde ', year),
                     Bouture.h2(rows.length, ' elements | ', d3.sum(rows.map(r => r['MtReal']))+'€'),
                     Bouture.table([
                         Bouture.thead.tr(['RD', 'FI', 'Fonction', 'Nature', 'Montant'].map(t => Bouture.th(t))),
@@ -96,7 +96,7 @@
                                     Bouture.td(r['FI']),
                                     Bouture.td(r['Fonction']),
                                     Bouture.td(r['Nature']),
-                                    Bouture.td(r['MtReal']+'€')
+                                    Bouture.td(r['MtReal'].toFixed(2)+'€')
                                 ])
                             })
                         )
@@ -138,9 +138,18 @@
 
         <style>
 
+            body{
+                display: flex;
+                flex-direction: column;
+
+                align-items: center;
+            }
+
             main{
                 display: flex;
                 flex-direction: column;
+
+                max-width: 60em;
             }
 
             input{
@@ -154,25 +163,37 @@
                 flex-direction: row;
                 justify-content: space-around;
             }
+
+            output table tbody td{
+                padding: 0 0.5em;
+            }
         
+            output table tbody td:nth-child(4),
+            output table tbody td:nth-child(5){
+                text-align: right;
+            }
+
         </style>
 
     </head>
     <body>
         <main>
-            <h1>Outil de nia nia</h1>
-            <p>Bah... ça a l'air de marcher...</p>
-            <p>Essaye de taper les différentes choses :
+            <h1>Outil de test de formules</h1>
+            <h2>Un outil pour filtrer les lignes d'un document budgétaires</h2>
+            <p>Pour le moment, cet outil ne filtre que les données des <a href="https://www.datalocale.fr/dataset/comptes-administratifs-budget-principal-donnees-budgetaires-du-departement-de-la-gironde">Comptes Administratifs du Département de la Gironde</a> pour les années 2016 et 2017... mais rien n'empêcherait de taper dans les autres années ou d'autres collectivités/établissements publics ou les BP, etc.</p>
+            <p>Exemples de formules&nbsp;:
                 <ul>
                     <li><code>D</code> : toutes les dépenses</li>
+                    <li><code>R</code> : toutes les recettes</li>
+                    <li><code>RI</code> : toutes les recettes d'investissement</li>
                     <li><code>DF</code> : toutes les dépenses de fonctionnement</li>
                     <li><code>DF*F4</code>  : toutes les dépenses de fonctionnement de la fonction 4</li>
                     <li><code>DF*(F4+F5)</code>  : toutes les dépenses de fonctionnement des fonctions 4 et 5</li>
                     <li><code>DF*(N64111+N6451)</code>  : toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)</li>
                     <li><code>DF*(N64111+N6451)*F52</code>  : toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)</li>
+                    <li><code>RI*C16</code> : toutes les recettes d'investissement du chapitre 16 (emprunts)</li>
                 </ul>     
             </p>
-
 
             <input type="text">
             <output></output>   
