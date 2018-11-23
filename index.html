@@ -140,10 +140,58 @@
 
                 window.addEventListener('hashchange', hashUpdate)
 
+
+                // Create examples list
+                const examples = [
+                    {
+                        formula: 'D',
+                        description: 'toutes les dépenses'
+                    },
+                    {
+                        formula: 'R',
+                        description: 'toutes les recettes'
+                    },
+                    {
+                        formula: 'RI',
+                        description: `toutes les recettes d'investissement`
+                    },
+                    {
+                        formula: 'DF',
+                        description: 'toutes les dépenses de fonctionnement'
+                    },
+                    {
+                        formula: 'DF*F4',
+                        description: 'toutes les dépenses de fonctionnement de la fonction 4'
+                    },
+                    {
+                        formula: 'DF*(F4+F5)',
+                        description: 'toutes les dépenses de fonctionnement des fonctions 4 et 5'
+                    },
+                    {
+                        formula: 'DF*(N64111+N6451)',
+                        description: 'toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)'
+                    },
+                    {
+                        formula: 'DF*(N64111+N6451)*F52',
+                        description: 'toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)'
+                    },
+                    {
+                        formula: 'RI*C16',
+                        description: `toutes les recettes d'investissement du chapitre 16 (emprunts)`
+                    }
+                ];
+
+                const ul = Bouture.ul(examples.map(({formula, description}) => {
+                    return Bouture.li([
+                        Bouture.a({href: `#${encodeURIComponent(formula)}`}).code(formula),
+                        Bouture.span(` : ${description}`)
+                    ])
+                })).getElement();
+
+                document.body.querySelector('ul.examples').replaceWith(ul)
+
             }, {once: true})
             
-            
-
         </script>
 
         <link rel="stylesheet" href="https://rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap-reboot.css">
@@ -169,7 +217,7 @@
                 font-size: 2em;
             }
             output{
-                background-color: lightgrey;
+                background-color: #EEE;
                 white-space: pre;
                 display: flex;
                 flex-direction: row;
@@ -193,18 +241,9 @@
             <h1>Outil de test de formules</h1>
             <h2>Un outil pour filtrer les lignes d'un document budgétaires</h2>
             <p>Pour le moment, cet outil ne filtre que les données des <a href="https://www.datalocale.fr/dataset/comptes-administratifs-budget-principal-donnees-budgetaires-du-departement-de-la-gironde">Comptes Administratifs du Département de la Gironde</a> pour les années 2016 et 2017... mais rien n'empêcherait de taper dans les autres années ou d'autres collectivités/établissements publics ou les BP, etc.</p>
-            <p>Exemples de formules&nbsp;:
-            <ul>
-                <li><a href="#D"><code>D</code></a> : toutes les dépenses</li>
-                <li><a href="#R"><code>R</code></a> : toutes les recettes</li>
-                <li><code>RI</code> : toutes les recettes d'investissement</li>
-                <li><code>DF</code> : toutes les dépenses de fonctionnement</li>
-                <li><a href="#DF*F4"><code>DF*F4</code></a>  : toutes les dépenses de fonctionnement de la fonction 4</li>
-                <li><code>DF*(F4+F5)</code>  : toutes les dépenses de fonctionnement des fonctions 4 et 5</li>
-                <li><code>DF*(N64111+N6451)</code>  : toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)</li>
-                <li><code>DF*(N64111+N6451)*F52</code>  : toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)</li>
-                <li><code>RI*C16</code> : toutes les recettes d'investissement du chapitre 16 (emprunts)</li>
-            </ul>     
+
+            <h2>Exemples de formules</h2>
+            <ul class="examples"></ul>     
             
             <input type="text">
             <output></output>   
