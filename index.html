@@ -84,7 +84,7 @@
             function makeTable(rows, year){
                 return Bouture.section([
                     Bouture.h1('CA Gironde ', year),
-                    Bouture.h2(rows.length, ' elements | ', d3.sum(rows.map(r => r['MtReal']))+'€'),
+                    Bouture.h2(rows.length, ' elements | ', d3.sum(rows.map(r => r['MtReal'])).toFixed(2)+'€'),
                     Bouture.table([
                         Bouture.thead.tr(['RD', 'FI', 'Fonction', 'Nature', 'Montant'].map(t => Bouture.th(t))),
                         Bouture.tbody(
@@ -102,18 +102,17 @@
                 ]).getElement()
             }
 
-
-
             const docBudgP = fetch('./data/doc-budgs.json').then(r => r.json())
 
             document.addEventListener('DOMContentLoaded', e => {
-                const output = document.querySelector('output');
+                const input = document.body.querySelector('input');
+                const output = document.body.querySelector('output');
 
                 docBudgP.then(docBudgs => {
                     const docBudg16 = docBudgs.find(db => db["Exer"] === 2016)
                     const docBudg17 = docBudgs.find(db => db["Exer"] === 2017)
                     
-                    document.body.querySelector('input').addEventListener('input', e => {
+                    input.addEventListener('input', e => {
                         output.innerHTML = '';
                         
                         const formula = e.target.value;
@@ -128,8 +127,23 @@
                         })
                     })
                 })
+
+                function hashUpdate(){
+                    const hashValue = decodeURIComponent(location.hash.slice(1));
+                    
+                    input.value = hashValue;
+                    input.dispatchEvent(new Event('input'))
+                }
+
+                // initialize input vith hash value
+                docBudgP.then( hashUpdate )
+
+                window.addEventListener('hashchange', hashUpdate)
+
             }, {once: true})
             
+            
+
         </script>
 
         <link rel="stylesheet" href="https://rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap-reboot.css">
@@ -181,11 +195,11 @@
             <p>Pour le moment, cet outil ne filtre que les données des <a href="https://www.datalocale.fr/dataset/comptes-administratifs-budget-principal-donnees-budgetaires-du-departement-de-la-gironde">Comptes Administratifs du Département de la Gironde</a> pour les années 2016 et 2017... mais rien n'empêcherait de taper dans les autres années ou d'autres collectivités/établissements publics ou les BP, etc.</p>
             <p>Exemples de formules&nbsp;:
             <ul>
-                <li><code>D</code> : toutes les dépenses</li>
-                <li><code>R</code> : toutes les recettes</li>
+                <li><a href="#D"><code>D</code></a> : toutes les dépenses</li>
+                <li><a href="#R"><code>R</code></a> : toutes les recettes</li>
                 <li><code>RI</code> : toutes les recettes d'investissement</li>
                 <li><code>DF</code> : toutes les dépenses de fonctionnement</li>
-                <li><code>DF*F4</code>  : toutes les dépenses de fonctionnement de la fonction 4</li>
+                <li><a href="#DF*F4"><code>DF*F4</code></a>  : toutes les dépenses de fonctionnement de la fonction 4</li>
                 <li><code>DF*(F4+F5)</code>  : toutes les dépenses de fonctionnement des fonctions 4 et 5</li>
                 <li><code>DF*(N64111+N6451)</code>  : toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)</li>
                 <li><code>DF*(N64111+N6451)*F52</code>  : toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)</li>
