@@ -5,19 +5,17 @@
         <meta name="referrer" content="same-origin">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
-        <title> </title>
+        <title>Formules d'agrégations de lignes budgétaires</title>
         
-        <meta name="description" content=" ">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <script crossorigin="anonymous" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
         <script crossorigin="anonymous" src="https://unpkg.com/nearley"></script>
         <script crossorigin="anonymous" src="https://d3js.org/d3-array.v1.min.js"></script>
-        <script crossorigin="anonymous" src="./Bouture.js"></script>
         <script crossorigin="anonymous" src="./grammar.js"></script>
 
-        <script>
-            'use strict';
+        <script type="module">
+            import Bouture from 'https://cdn.jsdelivr.net/gh/DavidBruant/bouture@13cb6c683fa87e5feea574311dcda6353489bb3b/bouture.js'
 
             function makeFilterFromParserOutput(parserOutput){
 
@@ -182,19 +180,18 @@
             <h2>Un outil pour filtrer les lignes d'un document budgétaires</h2>
             <p>Pour le moment, cet outil ne filtre que les données des <a href="https://www.datalocale.fr/dataset/comptes-administratifs-budget-principal-donnees-budgetaires-du-departement-de-la-gironde">Comptes Administratifs du Département de la Gironde</a> pour les années 2016 et 2017... mais rien n'empêcherait de taper dans les autres années ou d'autres collectivités/établissements publics ou les BP, etc.</p>
             <p>Exemples de formules&nbsp;:
-                <ul>
-                    <li><code>D</code> : toutes les dépenses</li>
-                    <li><code>R</code> : toutes les recettes</li>
-                    <li><code>RI</code> : toutes les recettes d'investissement</li>
-                    <li><code>DF</code> : toutes les dépenses de fonctionnement</li>
-                    <li><code>DF*F4</code>  : toutes les dépenses de fonctionnement de la fonction 4</li>
-                    <li><code>DF*(F4+F5)</code>  : toutes les dépenses de fonctionnement des fonctions 4 et 5</li>
-                    <li><code>DF*(N64111+N6451)</code>  : toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)</li>
-                    <li><code>DF*(N64111+N6451)*F52</code>  : toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)</li>
-                    <li><code>RI*C16</code> : toutes les recettes d'investissement du chapitre 16 (emprunts)</li>
-                </ul>     
-            </p>
-
+            <ul>
+                <li><code>D</code> : toutes les dépenses</li>
+                <li><code>R</code> : toutes les recettes</li>
+                <li><code>RI</code> : toutes les recettes d'investissement</li>
+                <li><code>DF</code> : toutes les dépenses de fonctionnement</li>
+                <li><code>DF*F4</code>  : toutes les dépenses de fonctionnement de la fonction 4</li>
+                <li><code>DF*(F4+F5)</code>  : toutes les dépenses de fonctionnement des fonctions 4 et 5</li>
+                <li><code>DF*(N64111+N6451)</code>  : toutes les dépenses de fonctionnement des natures 64111 et 6451 (salaire + URSSAF)</li>
+                <li><code>DF*(N64111+N6451)*F52</code>  : toutes les dépenses de fonctionnement salaires+URSSAF lié à la fonction 52 (Personnes handicapées)</li>
+                <li><code>RI*C16</code> : toutes les recettes d'investissement du chapitre 16 (emprunts)</li>
+            </ul>     
+            
             <input type="text">
             <output></output>   
         </main>
