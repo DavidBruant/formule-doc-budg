@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "railroad": "nearley-railroad grammar.ne -o railroad.html",
     "grammar": "nearleyc grammar.ne -o grammar.js",
     "test": "node test/main.js"
   },

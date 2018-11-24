@@ -10,14 +10,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <script crossorigin="anonymous" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-        <script crossorigin="anonymous" src="https://unpkg.com/nearley"></script>
-        <script crossorigin="anonymous" src="https://d3js.org/d3-array.v1.min.js"></script>
+        <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/nearley@2.15.1/lib/nearley.min.js"></script>
         <script crossorigin="anonymous" src="./grammar.js"></script>
 
         <script type="module">
             import Bouture from 'https://cdn.jsdelivr.net/gh/DavidBruant/bouture@13cb6c683fa87e5feea574311dcda6353489bb3b/bouture.js'
             import memoize from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.11/memoize.js'
-
+            import sum from 'https://cdn.jsdelivr.net/npm/d3-array@2.0.2/src/sum.js'
 
             function makeFilterFromParserOutput(parserOutput){
 
@@ -86,7 +85,7 @@
             function makeTable(rows, year){
                 return Bouture.section([
                     Bouture.h1('CA Gironde ', year),
-                    Bouture.h2(rows.length, ' elements | ', d3.sum(rows.map(r => r['MtReal'])).toFixed(2)+'€'),
+                    Bouture.h2(rows.length, ' elements | ', sum(rows.map(r => r['MtReal'])).toFixed(2)+'€'),
                     Bouture.table([
                         Bouture.thead.tr(['RD', 'FI', 'Fonction', 'Nature', 'Montant'].map(t => Bouture.th(t))),
                         Bouture.tbody(
@@ -158,6 +157,7 @@
 
                 // empty input (sometimes filled with pre-refresh value)
                 input.value = "";
+                input.focus()
 
                 // initialize input vith hash value
                 docBudgP.then( hashUpdate )
@@ -237,8 +237,9 @@
             }
 
             input{
-                width: 50%;
+                width: 100%;
                 font-size: 2em;
+                margin-bottom: 0.5em;
             }
             output{
                 background-color: #EEE;
