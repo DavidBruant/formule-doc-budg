@@ -13,7 +13,7 @@ var grammar = {
     {"name": "AS", "symbols": ["AS", "_", {"literal":"+"}, "_", "M"], "postprocess": ts => ts.filter(x => !!x)},
     {"name": "AS", "symbols": ["AS", "_", {"literal":"-"}, "_", "M"], "postprocess": ts => ts.filter(x => !!x)},
     {"name": "AS", "symbols": ["M"], "postprocess": id},
-    {"name": "SUBSET", "symbols": ["RD"], "postprocess": e => e[0]},
+    {"name": "SUBSET", "symbols": ["RD"], "postprocess": id},
     {"name": "SUBSET", "symbols": ["FI"], "postprocess": id},
     {"name": "SUBSET", "symbols": ["RDFI"], "postprocess": id},
     {"name": "SUBSET", "symbols": ["CHAPITRE"], "postprocess": id},
