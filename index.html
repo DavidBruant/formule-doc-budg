@@ -129,23 +129,35 @@
 
                     const memzMakeOutputFromFormula = memoize(makeOutputFromFormula)
 
+                    let changeHashTimeout;
+
                     input.addEventListener('input', e => {
                         const formula = e.target.value.trim();
 
                         document.body.querySelector('output').replaceWith(
                             memzMakeOutputFromFormula(formula)
                         )
+
+                        // save in hash if formula stayed unchanged for 3secs
+                        clearTimeout(changeHashTimeout)
+                        changeHashTimeout = setTimeout(() => {
+                            location.hash = encodeURIComponent(formula)
+                        }, 3000)
+
                     })
                 })
 
                 function hashUpdate(){
                     const hashValue = decodeURIComponent(location.hash.slice(1));
                     
-                    if(hashValue){
+                    if(hashValue && hashValue !== input.value){
                         input.value = hashValue;
                         input.dispatchEvent(new Event('input'))
                     }
                 }
+
+                // empty input (sometimes filled with pre-refresh value)
+                input.value = "";
 
                 // initialize input vith hash value
                 docBudgP.then( hashUpdate )
